@@ -24,7 +24,7 @@ export default function Navbar({ onOpenBooking, onOpenEvents }) {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#3F3D3A] border-b border-black/10 py-3.5 px-6 md:px-12 transition-all duration-300 shadow-md">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-transparent py-4 px-6 md:px-12 transition-all duration-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand Logo (Crimson Red 'The Oak') */}
         <a href="#hero" className="flex flex-col items-start leading-none group shrink-0">

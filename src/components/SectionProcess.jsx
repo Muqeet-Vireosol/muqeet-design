@@ -92,46 +92,44 @@ export default function SectionProcess({ onOpenBooking }) {
       {/* Pinned Stage for Section 2 */}
       <div
         ref={stageRef}
-        className="relative w-full h-screen flex flex-col justify-center py-16 px-6 md:px-12 overflow-hidden"
+        className="relative w-full h-screen flex flex-col justify-between py-12 md:py-16 px-4 sm:px-8 md:px-12 overflow-hidden bg-[#1A1008]"
       >
-        <div className="max-w-6xl w-full mx-auto flex flex-col">
-          {/* Top Right Label: THE PROCESS */}
-          <div className="w-full flex justify-end mb-3 md:mb-5">
-            <span className="font-serif text-sm md:text-base font-bold uppercase tracking-[0.25em] text-[#E8B89A]">
-              THE PROCESS
-            </span>
-          </div>
+        {/* Top Right Label: THE PROCESS */}
+        <div className="w-full max-w-[94vw] mx-auto flex justify-end pt-2 pb-2">
+          <span className="font-serif text-xs sm:text-sm md:text-base font-bold uppercase tracking-[0.28em] text-[#E8B89A]">
+            THE PROCESS
+          </span>
+        </div>
 
-          {/* Unified Composite Card (Single widescreen 2:1 container) */}
-          <div className="relative w-full rounded-[20px] sm:rounded-[28px] md:rounded-[32px] overflow-hidden border border-[#E8B89A]/30 bg-white aspect-[2/1] shadow-2xl mb-8">
-            {processSteps.map((step, i) => (
-              <img
-                key={step.title}
-                ref={(el) => (cardImagesRef.current[i] = el)}
-                src={step.image}
-                alt={step.title}
-                className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
-              />
-            ))}
-          </div>
+        {/* Section 2 Image Filling The Section */}
+        <div className="relative w-full max-w-[94vw] mx-auto flex-1 min-h-[50vh] max-h-[72vh] rounded-[24px] sm:rounded-[32px] md:rounded-[40px] overflow-hidden border border-[#E8B89A]/30 bg-white shadow-2xl my-2">
+          {processSteps.map((step, i) => (
+            <img
+              key={step.title}
+              ref={(el) => (cardImagesRef.current[i] = el)}
+              src={step.image}
+              alt={step.title}
+              className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
+            />
+          ))}
+        </div>
 
-          {/* Bottom Dynamic Captions (Swapping on Scroll) */}
-          <div className="relative w-full min-h-[90px]">
-            {processSteps.map((step, i) => (
-              <div
-                key={step.title}
-                ref={(el) => (captionsRef.current[i] = el)}
-                className="absolute inset-0 flex flex-col justify-start pointer-events-none will-change-transform"
-              >
-                <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold uppercase text-[#F5DEC8] tracking-wide mb-2">
-                  {step.num} {step.title}
-                </h3>
-                <p className="text-sm sm:text-base text-[#F5DEC8]/80 leading-relaxed font-sans max-w-2xl">
-                  {step.subtitle}
-                </p>
-              </div>
-            ))}
-          </div>
+        {/* Bottom Dynamic Captions (Swapping on Scroll) */}
+        <div className="relative w-full max-w-[94vw] mx-auto min-h-[85px] pt-3 pb-2">
+          {processSteps.map((step, i) => (
+            <div
+              key={step.title}
+              ref={(el) => (captionsRef.current[i] = el)}
+              className="absolute inset-0 flex flex-col justify-start pointer-events-none will-change-transform"
+            >
+              <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase text-[#F5DEC8] tracking-wide mb-1.5">
+                {step.num} {step.title}
+              </h3>
+              <p className="text-xs sm:text-sm md:text-base text-[#F5DEC8]/80 leading-relaxed font-sans max-w-3xl">
+                {step.subtitle}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
