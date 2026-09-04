@@ -1,139 +1,201 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const heroImages = [
-  {
-    src: '/assets/section1/1.png',
-    alt: 'The Oak Padel House - Nature Court',
-  },
-  {
-    src: '/assets/section1/2.png',
-    alt: 'Private Court Experience',
-  },
-  {
-    src: '/assets/section1/3.png',
-    alt: 'Host Padel Tournament',
-  },
-  {
-    src: '/assets/section1/4.png',
-    alt: 'Marketing Campaign & Brand Backdrop',
-  },
-  {
-    src: '/assets/section1/5.png',
-    alt: 'Court Ready To Play',
-  },
-];
+const TOTAL_FRAMES = 181;
+const HERO_LERP = 0.14;
 
 export default function SectionHero({ onOpenBooking }) {
   const containerRef = useRef(null);
   const stageRef = useRef(null);
-  const imagesRef = useRef([]);
-  const captionsRef = useRef([]);
+  const canvasRef = useRef(null);
   const letsPlayRef = useRef(null);
   const downScrollRef = useRef(null);
+  const captionsRef = useRef([]);
+
+  const framesRef = useRef([]);
+  const loadedCountRef = useRef(0);
+  const currentFrameRef = useRef(0);
+  const targetFrameRef = useRef(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId;
+    let isMounted = true;
+
+    // 1. Preload 181 frames
+    const preloadFrames = () => {
+      const frames = [];
+      for (let i = 1; i <= TOTAL_FRAMES; i++) {
+        const img = new Image();
+        img.src = `/frames/frame_${String(i).padStart(4, '0')}.webp`;
+        img.onload = () => {
+          if (!isMounted) return;
+          loadedCountRef.current++;
+          if (loadedCountRef.current === 1) {
+            drawFrame(0);
+          }
+          if (loadedCountRef.current >= 20 && !isLoaded) {
+            setIsLoaded(true);
+          }
+        };
+        img.onerror = () => {
+          if (!isMounted) return;
+          loadedCountRef.current++;
+        };
+        frames.push(img);
+      }
+      framesRef.current = frames;
+    };
+
+    preloadFrames();
+
+    // 2. High-DPI canvas resizing and cover math
+    const resizeCanvas = () => {
+      if (!canvas || !ctx) return;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawFrame(Math.round(currentFrameRef.current));
+    };
+
+    const drawFrame = (idx) => {
+      if (!canvas || !ctx) return;
+      const frames = framesRef.current;
+      const frameIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, idx));
+      const img = frames[frameIdx];
+
+      if (!img || !img.complete || !img.naturalWidth) return;
+
+      const cw = canvas.width / (window.devicePixelRatio || 1);
+      const ch = canvas.height / (window.devicePixelRatio || 1);
+      const imgRatio = img.naturalWidth / img.naturalHeight;
+      const canvasRatio = cw / ch;
+
+      let sw, sh, sx, sy;
+      if (imgRatio > canvasRatio) {
+        sh = img.naturalHeight;
+        sw = sh * canvasRatio;
+        sx = (img.naturalWidth - sw) / 2;
+        sy = 0;
+      } else {
+        sw = img.naturalWidth;
+        sh = sw / canvasRatio;
+        sx = 0;
+        sy = (img.naturalHeight - sh) / 2;
+      }
+
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // 3. Caption windowing helper
+    const win = (p, a, b, f = 0.04) => {
+      if (p < a - f || p > b + f) return 0;
+      if (p < a) return (p - (a - f)) / f;
+      if (p > b) return 1 - (p - b) / f;
+      return 1;
+    };
+
+    const updateCaptions = (p) => {
+      const ranges = [
+        { a: 0.0, b: 0.14 },
+        { a: 0.20, b: 0.40 },
+        { a: 0.44, b: 0.64 },
+        { a: 0.68, b: 0.86 },
+        { a: 0.89, b: 1.0 },
+      ];
+
+      captionsRef.current.forEach((cap, i) => {
+        if (!cap) return;
+        const range = ranges[i];
+        const opacity = win(p, range.a, range.b);
+        cap.style.opacity = opacity;
+        cap.style.transform = `translateY(${(1 - opacity) * 16}px)`;
+        cap.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
+      });
+
+      // Overlay badges fade out
+      if (letsPlayRef.current) {
+        const lpOpacity = Math.max(0, 1 - p / 0.12);
+        letsPlayRef.current.style.opacity = lpOpacity;
+        letsPlayRef.current.style.transform = `translateY(${-p * 40}px)`;
+      }
+
+      if (downScrollRef.current) {
+        const dsOpacity = Math.max(0, 1 - p / 0.1);
+        downScrollRef.current.style.opacity = dsOpacity;
+      }
+    };
+
+    // 4. GSAP ScrollTrigger for pinning and progress tracking
     const container = containerRef.current;
     const stage = stageRef.current;
-    if (!container || !stage) return;
 
-    const ctx = gsap.context(() => {
-      // 1. Initial states: First image visible, others opacity 0
-      imagesRef.current.forEach((img, i) => {
-        if (img) {
-          gsap.set(img, { opacity: i === 0 ? 1 : 0 });
-        }
-      });
+    const st = ScrollTrigger.create({
+      trigger: container,
+      start: 'top top',
+      end: 'bottom bottom',
+      pin: stage,
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        targetFrameRef.current = self.progress * (TOTAL_FRAMES - 1);
+        updateCaptions(self.progress);
+      },
+    });
 
-      // Captions initial states: First caption visible, others opacity 0
-      captionsRef.current.forEach((cap, i) => {
-        if (cap) {
-          gsap.set(cap, { opacity: i === 0 ? 1 : 0, y: i === 0 ? 0 : 20 });
-        }
-      });
+    // 5. Render loop with LERP interpolation
+    const render = () => {
+      currentFrameRef.current += (targetFrameRef.current - currentFrameRef.current) * HERO_LERP;
+      const idx = Math.round(currentFrameRef.current);
+      drawFrame(idx);
+      animId = requestAnimationFrame(render);
+    };
 
-      // 2. Main ScrollTrigger timeline with scrub: 1.5
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 1.5,
-          pin: stage,
-          anticipatePin: 1,
-        },
-      });
+    animId = requestAnimationFrame(render);
 
-      // "LET'S PLAY" overlay fades out early in the scroll
-      if (letsPlayRef.current) {
-        tl.to(letsPlayRef.current, { opacity: 0, y: -20, duration: 0.15 }, 0);
-      }
-
-      // "DOWN SCROLL" indicator fades out early
-      if (downScrollRef.current) {
-        tl.to(downScrollRef.current, { opacity: 0, duration: 0.15 }, 0);
-      }
-
-      // Fade out initial hero title (caption 0)
-      if (captionsRef.current[0]) {
-        tl.to(captionsRef.current[0], { opacity: 0, y: -20, duration: 0.2 }, 0.1);
-      }
-
-      // Swap through images 1 -> 2 -> 3 -> 4 -> 5 and corresponding captions
-      // Step 1: Image 1 -> Image 2 (01 - BOOK YOUR PRIVATE COURT)
-      tl.to(imagesRef.current[1], { opacity: 1, duration: 0.25 }, 0.2)
-        .to(captionsRef.current[1], { opacity: 1, y: 0, duration: 0.25 }, 0.22)
-        .to(captionsRef.current[1], { opacity: 0, y: -20, duration: 0.2 }, 0.42);
-
-      // Step 2: Image 2 -> Image 3 (02 - HOST YOUR PADEL TOURNAMENT)
-      tl.to(imagesRef.current[2], { opacity: 1, duration: 0.25 }, 0.45)
-        .to(captionsRef.current[2], { opacity: 1, y: 0, duration: 0.25 }, 0.47)
-        .to(captionsRef.current[2], { opacity: 0, y: -20, duration: 0.2 }, 0.67);
-
-      // Step 3: Image 3 -> Image 4 (03 - SHOOT YOUR MARKETING CAMPAIGN)
-      tl.to(imagesRef.current[3], { opacity: 1, duration: 0.25 }, 0.7)
-        .to(captionsRef.current[3], { opacity: 1, y: 0, duration: 0.25 }, 0.72)
-        .to(captionsRef.current[3], { opacity: 0, y: -20, duration: 0.2 }, 0.88);
-
-      // Step 4: Image 4 -> Image 5 (04 - YOUR COURT IS READY / LET'S PLAY)
-      tl.to(imagesRef.current[4], { opacity: 1, duration: 0.25 }, 0.9)
-        .to(captionsRef.current[4], { opacity: 1, y: 0, duration: 0.25 }, 0.92);
-    }, container);
-
-    return () => ctx.revert();
-  }, []);
+    return () => {
+      isMounted = false;
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animId);
+      st.kill();
+    };
+  }, [isLoaded]);
 
   return (
     <section id="hero" ref={containerRef} className="relative w-full h-[500vh] bg-[#1A1008]">
-      {/* Pinned Stage Viewport */}
+      {/* Pinned Stage */}
       <div
         ref={stageRef}
-        className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+        className="relative w-full h-screen overflow-hidden flex items-center justify-center bg-[#1A1008]"
       >
-        {/* Swapping Background Images */}
-        <div className="absolute inset-0 z-0">
-          {heroImages.map((img, i) => (
-            <img
-              key={img.src}
-              ref={(el) => (imagesRef.current[i] = el)}
-              src={img.src}
-              alt={img.alt}
-              className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none will-change-transform"
-            />
-          ))}
-          {/* Subtle Neo-Classical Scrim Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/90 via-[#1A1008]/40 to-[#1A1008]/60 pointer-events-none" />
-        </div>
+        {/* Main Animation Canvas */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        />
+
+        {/* Subtle Scrim Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/90 via-[#1A1008]/30 to-[#1A1008]/60 pointer-events-none z-[1]" />
 
         {/* Floating "LET'S PLAY" Overlay on Hero */}
         <div
           ref={letsPlayRef}
-          className="absolute top-28 md:top-32 left-6 md:left-12 z-20 pointer-events-none"
+          className="absolute top-28 md:top-32 left-6 md:left-12 z-20 pointer-events-none transition-opacity"
         >
-          <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.3em] text-[#E8B89A] px-3.5 py-1.5 rounded-full border border-[#E8B89A]/40 bg-[#1A1008]/60 backdrop-blur-sm">
+          <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.3em] text-[#E8B89A] px-3.5 py-1.5 rounded-full border border-[#E8B89A]/40 bg-[#1A1008]/70 backdrop-blur-sm shadow-md">
             LET'S PLAY
           </span>
         </div>
@@ -141,7 +203,7 @@ export default function SectionHero({ onOpenBooking }) {
         {/* Animated "DOWN SCROLL" Vertical Indicator */}
         <div
           ref={downScrollRef}
-          className="absolute right-6 md:right-12 bottom-12 z-20 flex flex-col items-center gap-3 pointer-events-none"
+          className="absolute right-6 md:right-12 bottom-12 z-20 flex flex-col items-center gap-3 pointer-events-none transition-opacity"
         >
           <span className="vertical-lr text-[10px] md:text-xs font-semibold uppercase tracking-[0.3em] text-[#E8B89A] animate-down-scroll">
             DOWN SCROLL
@@ -154,7 +216,7 @@ export default function SectionHero({ onOpenBooking }) {
           {/* Caption 0: Intro Hero */}
           <div
             ref={(el) => (captionsRef.current[0] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-3xl"
+            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-3xl opacity-100 will-change-transform"
           >
             <span className="text-xs md:text-sm uppercase tracking-[0.28em] font-semibold text-[#E8B89A] block mb-3 font-sans">
               EXPERIENCE A REFRESHING
@@ -170,7 +232,7 @@ export default function SectionHero({ onOpenBooking }) {
           {/* Caption 1: 01 - BOOK YOUR PRIVATE COURT */}
           <div
             ref={(el) => (captionsRef.current[1] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl"
+            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl opacity-0 will-change-transform"
           >
             <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-[#E8B89A] block mb-2 font-sans">
               01 — BOOK YOUR
@@ -186,7 +248,7 @@ export default function SectionHero({ onOpenBooking }) {
           {/* Caption 2: 02 - HOST YOUR PADEL TOURNAMENT */}
           <div
             ref={(el) => (captionsRef.current[2] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl"
+            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl opacity-0 will-change-transform"
           >
             <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-[#E8B89A] block mb-2 font-sans">
               02 — HOST YOUR
@@ -202,7 +264,7 @@ export default function SectionHero({ onOpenBooking }) {
           {/* Caption 3: 03 - SHOOT YOUR MARKETING CAMPAIGN */}
           <div
             ref={(el) => (captionsRef.current[3] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl"
+            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl opacity-0 will-change-transform"
           >
             <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-[#E8B89A] block mb-2 font-sans">
               03 — SHOOT YOUR
@@ -218,7 +280,7 @@ export default function SectionHero({ onOpenBooking }) {
           {/* Caption 4: 04 - YOUR COURT IS READY / LET'S PLAY ! */}
           <div
             ref={(el) => (captionsRef.current[4] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl pointer-events-auto"
+            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl opacity-0 will-change-transform pointer-events-auto"
           >
             <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-[#E8B89A] block mb-2 font-sans">
               YOUR COURT IS READY
@@ -228,7 +290,7 @@ export default function SectionHero({ onOpenBooking }) {
             </h2>
             <button
               onClick={onOpenBooking}
-              className="px-8 py-3.5 bg-[#C4622D] hover:bg-[#a84e20] text-[#F5DEC8] text-xs font-semibold uppercase tracking-[0.18em] rounded-full transition-all duration-300 active:scale-95 border border-[#C4622D]"
+              className="px-8 py-3.5 bg-[#C4622D] hover:bg-[#a84e20] text-[#F5DEC8] text-xs font-semibold uppercase tracking-[0.18em] rounded-full transition-all duration-300 active:scale-95 border border-[#C4622D] shadow-lg"
             >
               BOOK A COURT →
             </button>

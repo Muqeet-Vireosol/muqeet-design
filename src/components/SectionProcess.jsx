@@ -92,41 +92,34 @@ export default function SectionProcess({ onOpenBooking }) {
       {/* Pinned Stage for Section 2 */}
       <div
         ref={stageRef}
-        className="relative w-full h-screen flex items-center justify-center py-24 px-6 md:px-12 overflow-hidden"
+        className="relative w-full h-screen flex flex-col justify-center py-16 px-6 md:px-12 overflow-hidden"
       >
-        <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-          {/* Left Column: Pinned Large Image with "OUR PREMIUM COURTS" Heading Overlaid */}
-          <div className="lg:col-span-6 relative rounded-2xl overflow-hidden border border-[#E8B89A]/30 aspect-[4/3] md:aspect-[16/11] bg-[#1A1008]">
-            <img
-              src="/assets/section2/Start.png"
-              alt="Our Premium Courts"
-              className="w-full h-full object-cover object-center"
-            />
-            {/* Scrim Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/90 via-[#1A1008]/30 to-transparent pointer-events-none" />
-
-            {/* Overlaid Headline */}
-            <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 z-10 pointer-events-none">
-              <span className="text-[11px] uppercase tracking-[0.28em] font-semibold text-[#E8B89A] block mb-2 font-sans">
-                SANCTUARY ARCHITECTURE
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold uppercase text-[#F5DEC8] leading-tight">
-                OUR PREMIUM COURTS
-              </h2>
-            </div>
+        <div className="max-w-7xl w-full mx-auto flex flex-col">
+          {/* Top Right Label: THE PROCESS */}
+          <div className="w-full flex justify-end mb-4 md:mb-6">
+            <span className="font-serif text-sm md:text-base font-bold uppercase tracking-[0.25em] text-[#E8B89A]">
+              THE PROCESS
+            </span>
           </div>
 
-          {/* Right Column: Scroll-Driven 4-Image Swap + Captions */}
-          <div className="lg:col-span-6 flex flex-col justify-between">
-            {/* Right-Aligned "THE PROCESS" Section Title at the top */}
-            <div className="w-full flex justify-end mb-4 md:mb-6">
-              <span className="font-serif text-sm md:text-base font-bold uppercase tracking-[0.25em] text-[#E8B89A]">
-                THE PROCESS
-              </span>
+          {/* Unified Split Card (Left: OUR PREMIUM COURTS, Right: Scroll Image Swap) */}
+          <div className="relative w-full rounded-[24px] md:rounded-[32px] overflow-hidden border border-[#E8B89A]/30 bg-[#1A1008] grid grid-cols-1 md:grid-cols-2 aspect-[4/3] md:aspect-[16/9] shadow-2xl mb-8">
+            {/* Left Column: Pinned "OUR PREMIUM COURTS" Image */}
+            <div className="relative h-full w-full overflow-hidden border-b md:border-b-0 md:border-r border-[#E8B89A]/20 flex items-center justify-center">
+              <img
+                src="/assets/section2/Start.png"
+                alt="Our Premium Courts"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-[#1A1008]/25 flex items-center justify-center p-6 text-center">
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-wider text-[#F5DEC8] drop-shadow-md">
+                  OUR PREMIUM COURTS
+                </h2>
+              </div>
             </div>
 
-            {/* Swapping Image Frame */}
-            <div className="relative w-full aspect-[4/3] md:aspect-[16/10] rounded-2xl overflow-hidden border border-[#E8B89A]/30 bg-[#1A1008] mb-6">
+            {/* Right Column: Scroll-Driven Image Swap */}
+            <div className="relative h-full w-full overflow-hidden bg-[#1A1008]">
               {processSteps.map((step, i) => (
                 <img
                   key={step.title}
@@ -136,26 +129,25 @@ export default function SectionProcess({ onOpenBooking }) {
                   className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
                 />
               ))}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/80 via-transparent to-transparent pointer-events-none" />
             </div>
+          </div>
 
-            {/* Swapping Captions Frame */}
-            <div className="relative min-h-[90px] flex items-center">
-              {processSteps.map((step, i) => (
-                <div
-                  key={step.title}
-                  ref={(el) => (rightCaptionsRef.current[i] = el)}
-                  className="absolute inset-0 flex flex-col justify-center pointer-events-none"
-                >
-                  <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold uppercase text-[#F5DEC8] tracking-wide mb-1">
-                    {step.num} {step.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#F5DEC8]/80 leading-relaxed font-sans max-w-lg">
-                    {step.subtitle}
-                  </p>
-                </div>
-              ))}
-            </div>
+          {/* Bottom Dynamic Captions (Swapping on Scroll) */}
+          <div className="relative w-full min-h-[90px]">
+            {processSteps.map((step, i) => (
+              <div
+                key={step.title}
+                ref={(el) => (rightCaptionsRef.current[i] = el)}
+                className="absolute inset-0 flex flex-col justify-start pointer-events-none will-change-transform"
+              >
+                <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold uppercase text-[#F5DEC8] tracking-wide mb-2">
+                  {step.num} {step.title}
+                </h3>
+                <p className="text-sm sm:text-base text-[#F5DEC8]/80 leading-relaxed font-sans max-w-2xl">
+                  {step.subtitle}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

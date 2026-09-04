@@ -31,7 +31,7 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
     const trailContainer = trailContainerRef.current;
     if (!stage || !trailContainer) return;
 
-    // Preload images
+    // Preload trail images
     TRAIL_IMAGES.forEach((src) => {
       const im = new Image();
       im.src = src;
@@ -63,7 +63,7 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
 
       const img = document.createElement('img');
       img.src = TRAIL_IMAGES[trailIndexRef.current % TRAIL_IMAGES.length];
-      img.alt = 'The Oak Atmosphere';
+      img.alt = 'The Oak Memories Preview';
       item.appendChild(img);
 
       trailContainer.appendChild(item);
@@ -74,11 +74,13 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
         item.classList.add('is-active');
       });
 
+      // STRICT CAP: max 5 active trail items
       while (activeTrailRef.current.length > MAX_TRAIL_ITEMS) {
         const oldest = activeTrailRef.current.shift();
         removeTrailItem(oldest);
       }
 
+      // Auto fade out after 2.2 seconds
       setTimeout(() => {
         const idx = activeTrailRef.current.indexOf(item);
         if (idx !== -1) {
@@ -126,8 +128,8 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
 
   return (
     <div id="memories" className="w-full">
-      {/* SECTION 3 — MEMORIES CTA: Cream Background (#F5DEC8), min padding 96px, thin 1px #E8B89A border */}
-      <section className="relative w-full min-h-[90vh] bg-[#F5DEC8] text-[#1A1008] border-t border-[#E8B89A] py-24 md:py-32 flex items-center justify-center overflow-hidden select-none">
+      {/* SECTION 3 — MEMORIES CTA: Cream/Sand Background (#F5ECD7), min padding 96px, thin 1px #E8B89A border */}
+      <section className="relative w-full min-h-[90vh] bg-[#F5ECD7] text-[#1A1008] border-t border-[#E8B89A] py-24 md:py-36 flex items-center justify-center overflow-hidden select-none">
         <div
           ref={stageRef}
           className="cursor-trail-stage w-full flex flex-col items-center justify-center text-center px-6 md:px-12"
@@ -137,30 +139,34 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
 
           {/* Centered Content */}
           <div className="relative z-20 max-w-4xl mx-auto flex flex-col items-center">
-            {/* Sub-label above headline: "Items At The Kitchen Woods" */}
-            <span className="text-xs md:text-sm font-semibold uppercase tracking-[0.32em] text-[#C4622D] block mb-4 font-sans">
-              Items At The Kitchen Woods
+            {/* Sub-label above headline: "MOVE YOUR CURSOR" */}
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.35em] text-[#A84A25] block mb-6 font-sans">
+              MOVE YOUR CURSOR
             </span>
 
-            {/* Main headline: "LET'S CREATE SOME MEMORIES!" */}
-            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-[#1A1008] uppercase leading-[1.02] mb-10 max-w-4xl">
-              LET'S CREATE SOME MEMORIES!
-            </h2>
+            {/* Main headline: "LETS CREATE SOME MEMORIES !" with Trobosh Artistic Typography */}
+            <div className="w-full max-w-2xl px-4 my-2 mb-8 flex justify-center items-center">
+              <img
+                src="/assets/section3/trobosh_title_transparent.png"
+                alt="LETS CREATE SOME MEMORIES !"
+                className="w-full max-w-xl md:max-w-2xl h-auto object-contain pointer-events-none select-none drop-shadow-sm"
+              />
+            </div>
 
-            {/* Two Side-by-Side Buttons: One filled dark, one outline */}
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pointer-events-auto">
-              {/* Button 1: Filled Dark */}
+            {/* Two Side-by-Side Pill Buttons */}
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pointer-events-auto mt-2">
+              {/* Button 1: Terracotta Filled */}
               <button
                 onClick={onOpenBooking}
-                className="px-9 py-4 bg-[#1A1008] hover:bg-[#C4622D] text-[#F5DEC8] border border-[#1A1008] hover:border-[#C4622D] text-xs md:text-sm font-semibold uppercase tracking-[0.18em] rounded-full transition-all duration-300 active:scale-95"
+                className="px-8 py-3.5 bg-[#A84A25] hover:bg-[#8f3c1b] text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] rounded-full transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg"
               >
                 Book Your Court
               </button>
 
-              {/* Button 2: Outline */}
+              {/* Button 2: Crisp White Pill with Shadow */}
               <button
                 onClick={onOpenEvent}
-                className="px-9 py-4 bg-transparent hover:bg-[#1A1008] text-[#1A1008] hover:text-[#F5DEC8] border border-[#1A1008] text-xs md:text-sm font-semibold uppercase tracking-[0.18em] rounded-full transition-all duration-300 active:scale-95"
+                className="px-8 py-3.5 bg-white hover:bg-[#faf6f0] text-[#2B150A] text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] rounded-full transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg border border-black/5"
               >
                 Host Event
               </button>
