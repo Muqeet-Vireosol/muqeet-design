@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Navbar({ onOpenBooking, onOpenEvents }) {
-  const [scrolled, setScrolled] = useState(false);
+  const [activeTab, setActiveTab] = useState('hero');
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 80) {
-        setScrolled(true);
+      const scrollPos = window.scrollY + 200;
+      const heroEl = document.getElementById('hero');
+      const processEl = document.getElementById('process');
+      const memoriesEl = document.getElementById('memories');
+
+      if (memoriesEl && scrollPos >= memoriesEl.offsetTop) {
+        setActiveTab('memories');
+      } else if (processEl && scrollPos >= processEl.offsetTop) {
+        setActiveTab('process');
       } else {
-        setScrolled(false);
+        setActiveTab('hero');
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -17,51 +24,62 @@ export default function Navbar({ onOpenBooking, onOpenEvents }) {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[#1A1008] border-b border-[#E8B89A]/30 py-4'
-          : 'bg-transparent py-6 text-[#F5DEC8]'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Brand Logo */}
-        <a href="#hero" className="flex flex-col items-start leading-none group">
-          <span className="font-serif text-2xl md:text-3xl font-bold tracking-wider text-[#F5DEC8] group-hover:text-[#C4622D] transition-colors">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#3F3D3A] border-b border-black/10 py-3.5 px-6 md:px-12 transition-all duration-300 shadow-md">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Brand Logo (Crimson Red 'The Oak') */}
+        <a href="#hero" className="flex flex-col items-start leading-none group shrink-0">
+          <span className="font-serif text-2xl md:text-3xl font-bold tracking-wider text-[#A82020] group-hover:text-[#c42828] transition-colors">
             The Oak
           </span>
-          <span className="text-[9px] uppercase tracking-[0.3em] text-[#E8B89A] font-sans font-medium mt-0.5">
+          <span className="text-[9px] uppercase tracking-[0.28em] text-[#E8B89A]/90 font-sans font-medium mt-0.5">
             PADEL HOUSE
           </span>
         </a>
 
-        {/* Exact Desktop Navigation Links: Lazy Padel | Events | Go Kart | BOOK YOUR COURT */}
-        <nav className="hidden md:flex items-center space-x-10 text-xs uppercase tracking-[0.2em] font-medium font-sans">
+        {/* Centered Desktop Navigation Links */}
+        <nav className="hidden md:flex items-center justify-center space-x-10 lg:space-x-12">
           <a
             href="#hero"
-            className="text-[#F5DEC8]/90 hover:text-[#C4622D] transition-colors"
+            onClick={() => setActiveTab('hero')}
+            className={`text-xs uppercase tracking-[0.18em] font-normal font-sans transition-all duration-250 ease-in-out ${
+              activeTab === 'hero'
+                ? 'text-[#FFFFFF] font-semibold opacity-100'
+                : 'text-[#B0B0B0] opacity-75 hover:text-[#FFFFFF] hover:opacity-100'
+            }`}
           >
-            Lazy Padel
+            LETS PADEL
           </a>
           <button
-            onClick={onOpenEvents}
-            className="text-[#F5DEC8]/90 hover:text-[#C4622D] transition-colors uppercase tracking-[0.2em]"
+            onClick={() => {
+              setActiveTab('events');
+              onOpenEvents();
+            }}
+            className={`text-xs uppercase tracking-[0.18em] font-normal font-sans transition-all duration-250 ease-in-out ${
+              activeTab === 'events'
+                ? 'text-[#FFFFFF] font-semibold opacity-100'
+                : 'text-[#B0B0B0] opacity-75 hover:text-[#FFFFFF] hover:opacity-100'
+            }`}
           >
-            Events
+            EVENTS
           </button>
           <a
-            href="#process"
-            className="text-[#F5DEC8]/90 hover:text-[#C4622D] transition-colors"
+            href="#memories"
+            onClick={() => setActiveTab('contact')}
+            className={`text-xs uppercase tracking-[0.18em] font-normal font-sans transition-all duration-250 ease-in-out ${
+              activeTab === 'contact'
+                ? 'text-[#FFFFFF] font-semibold opacity-100'
+                : 'text-[#B0B0B0] opacity-75 hover:text-[#FFFFFF] hover:opacity-100'
+            }`}
           >
-            Go Kart
+            CONTACT
           </a>
         </nav>
 
-        {/* BOOK YOUR COURT - Red Pill-Shaped CTA Button */}
-        <div className="hidden sm:flex items-center">
+        {/* BOOK YOUR COURT - Solid Crimson Red Button */}
+        <div className="hidden sm:flex items-center shrink-0">
           <button
             onClick={onOpenBooking}
-            className="px-7 py-3 bg-[#C4622D] hover:bg-[#a84e20] text-[#F5DEC8] text-xs font-semibold uppercase tracking-[0.16em] rounded-full transition-all duration-300 active:scale-95 border border-[#C4622D]"
+            className="px-6 py-2.5 bg-[#991B1B] hover:bg-[#b91c1c] text-white text-xs font-semibold uppercase tracking-[0.15em] rounded-md transition-all duration-250 ease-in-out active:scale-95 shadow-sm"
           >
             BOOK YOUR COURT
           </button>
@@ -71,13 +89,13 @@ export default function Navbar({ onOpenBooking, onOpenEvents }) {
         <div className="md:hidden flex items-center">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 text-[#F5DEC8] focus:outline-none"
+            className="p-2 text-white focus:outline-none"
             aria-label="Toggle Menu"
           >
             <div className="w-6 h-5 flex flex-col justify-between">
-              <span className={`w-full h-0.5 bg-[#F5DEC8] transition-transform ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`w-full h-0.5 bg-[#F5DEC8] transition-opacity ${mobileOpen ? 'opacity-0' : ''}`} />
-              <span className={`w-full h-0.5 bg-[#F5DEC8] transition-transform ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              <span className={`w-full h-0.5 bg-white transition-transform ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`w-full h-0.5 bg-white transition-opacity ${mobileOpen ? 'opacity-0' : ''}`} />
+              <span className={`w-full h-0.5 bg-white transition-transform ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </div>
           </button>
         </div>
@@ -85,37 +103,44 @@ export default function Navbar({ onOpenBooking, onOpenEvents }) {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="md:hidden bg-[#1A1008] border-b border-[#E8B89A]/30 px-6 py-8 mt-4 text-[#F5DEC8] space-y-6 text-sm uppercase tracking-widest font-sans font-medium">
+        <div className="md:hidden bg-[#3F3D3A] border-t border-black/20 px-6 py-6 mt-3 space-y-5 text-sm uppercase tracking-[0.18em] font-sans font-medium">
           <a
             href="#hero"
-            onClick={() => setMobileOpen(false)}
-            className="block hover:text-[#C4622D]"
+            onClick={() => {
+              setMobileOpen(false);
+              setActiveTab('hero');
+            }}
+            className="block text-[#B0B0B0] hover:text-white"
           >
-            Lazy Padel
+            LETS PADEL
           </a>
           <button
             onClick={() => {
               setMobileOpen(false);
+              setActiveTab('events');
               onOpenEvents();
             }}
-            className="block text-left uppercase tracking-widest hover:text-[#C4622D]"
+            className="block w-full text-left uppercase tracking-[0.18em] text-[#B0B0B0] hover:text-white"
           >
-            Events
+            EVENTS
           </button>
           <a
-            href="#process"
-            onClick={() => setMobileOpen(false)}
-            className="block hover:text-[#C4622D]"
+            href="#memories"
+            onClick={() => {
+              setMobileOpen(false);
+              setActiveTab('contact');
+            }}
+            className="block text-[#B0B0B0] hover:text-white"
           >
-            Go Kart
+            CONTACT
           </a>
-          <div className="pt-4 border-t border-[#E8B89A]/20">
+          <div className="pt-3 border-t border-black/20">
             <button
               onClick={() => {
                 setMobileOpen(false);
                 onOpenBooking();
               }}
-              className="w-full py-3 bg-[#C4622D] text-[#F5DEC8] text-xs font-semibold uppercase tracking-widest rounded-full text-center"
+              className="w-full py-2.5 bg-[#991B1B] text-white text-xs font-semibold uppercase tracking-widest rounded-md text-center shadow-sm"
             >
               BOOK YOUR COURT
             </button>

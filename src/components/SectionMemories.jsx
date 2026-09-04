@@ -138,27 +138,27 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
           <div ref={trailContainerRef} className="absolute inset-0 pointer-events-none overflow-hidden z-10" />
 
           {/* Centered Content */}
-          <div className="relative z-20 max-w-4xl mx-auto flex flex-col items-center">
-            {/* Sub-label above headline: "MOVE YOUR CURSOR" */}
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.35em] text-[#A84A25] block mb-6 font-sans">
+          <div className="relative z-20 max-w-5xl mx-auto flex flex-col items-center">
+            {/* Sub-label above headline: "MOVE YOUR CURSOR" (Increased by 40%) */}
+            <span className="text-base sm:text-lg md:text-xl font-bold uppercase tracking-[0.38em] text-[#A84A25] block mb-8 font-sans">
               MOVE YOUR CURSOR
             </span>
 
-            {/* Main headline: "LETS CREATE SOME MEMORIES !" with Trobosh Artistic Typography */}
-            <div className="w-full max-w-2xl px-4 my-2 mb-8 flex justify-center items-center">
+            {/* Main headline: "LETS CREATE SOME MEMORIES !" with Trobosh Artistic Typography (Increased by 40%) */}
+            <div className="w-full max-w-4xl md:max-w-5xl px-4 my-4 mb-12 flex justify-center items-center">
               <img
                 src="/assets/section3/trobosh_title_transparent.png"
                 alt="LETS CREATE SOME MEMORIES !"
-                className="w-full max-w-xl md:max-w-2xl h-auto object-contain pointer-events-none select-none drop-shadow-sm"
+                className="w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-5xl h-auto object-contain pointer-events-none select-none drop-shadow-sm scale-110 md:scale-125 transition-transform"
               />
             </div>
 
-            {/* Two Side-by-Side Pill Buttons */}
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pointer-events-auto mt-2">
+            {/* Two Side-by-Side Pill Buttons (Increased by 40%) */}
+            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 pointer-events-auto mt-4">
               {/* Button 1: Terracotta Filled */}
               <button
                 onClick={onOpenBooking}
-                className="px-8 py-3.5 bg-[#A84A25] hover:bg-[#8f3c1b] text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] rounded-full transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg"
+                className="px-10 sm:px-12 py-4 sm:py-5 bg-[#A84A25] hover:bg-[#8f3c1b] text-white text-sm sm:text-base md:text-lg font-semibold uppercase tracking-[0.14em] rounded-full transition-all duration-300 active:scale-95 shadow-lg hover:shadow-xl"
               >
                 Book Your Court
               </button>
@@ -166,7 +166,7 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
               {/* Button 2: Crisp White Pill with Shadow */}
               <button
                 onClick={onOpenEvent}
-                className="px-8 py-3.5 bg-white hover:bg-[#faf6f0] text-[#2B150A] text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] rounded-full transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg border border-black/5"
+                className="px-10 sm:px-12 py-4 sm:py-5 bg-white hover:bg-[#faf6f0] text-[#2B150A] text-sm sm:text-base md:text-lg font-semibold uppercase tracking-[0.14em] rounded-full transition-all duration-300 active:scale-95 shadow-lg hover:shadow-xl border border-black/5"
               >
                 Host Event
               </button>

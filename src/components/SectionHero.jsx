@@ -200,115 +200,115 @@ export default function SectionHero({ onOpenBooking }) {
           </span>
         </div>
 
-        {/* Constantly Rotating Circular "SCROLL DOWN" Indicator */}
+        {/* Constantly Rotating Circular "SCROLL DOWN" Indicator (Centered at Bottom) */}
         <div
           ref={downScrollRef}
-          className="absolute right-6 md:right-12 bottom-8 md:bottom-12 z-20 pointer-events-none transition-opacity"
+          className="absolute left-1/2 -translate-x-1/2 bottom-4 sm:bottom-6 md:bottom-8 z-20 pointer-events-none transition-opacity"
         >
-          <div className="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center">
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex items-center justify-center">
             <svg
-              className="w-full h-full animate-[spin_10s_linear_infinite]"
+              className="w-full h-full animate-[spin_12s_linear_infinite]"
               viewBox="0 0 100 100"
             >
               <path
                 id="scrollCirclePath"
-                d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"
+                d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
                 fill="none"
               />
-              <text className="text-[9.5px] font-sans font-bold tracking-[0.26em] fill-[#F5DEC8] uppercase">
+              <text className="text-[9.5px] font-sans font-bold tracking-[0.24em] fill-[#FFFFFF] uppercase">
                 <textPath href="#scrollCirclePath" startOffset="0%">
                   • SCROLL DOWN • SCROLL DOWN
                 </textPath>
               </text>
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#E8B89A] animate-ping" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white/80 animate-ping" />
             </div>
           </div>
         </div>
 
         {/* Captions Overlay Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full h-full flex flex-col justify-end pb-20 md:pb-24 pointer-events-none">
-          {/* Caption 0: Intro Hero */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full h-full flex items-center justify-center pointer-events-none">
+          {/* Caption 0: Intro Hero (Centered in Screen) */}
           <div
             ref={(el) => (captionsRef.current[0] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-3xl opacity-100 will-change-transform"
+            className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 opacity-100 will-change-transform"
           >
-            <span className="text-xs md:text-sm uppercase tracking-[0.28em] font-semibold text-[#E8B89A] block mb-3 font-sans">
+            <span className="text-xs md:text-sm uppercase tracking-[0.28em] font-semibold text-white/90 block mb-3 font-sans">
               EXPERIENCE A REFRESHING
             </span>
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-[#F5DEC8] uppercase leading-[0.95] mb-4">
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white uppercase leading-[0.95] mb-4 drop-shadow-md">
               GAME OF PADEL
             </h1>
-            <p className="font-serif text-lg md:text-2xl italic tracking-wide text-[#F5DEC8]/90 font-normal">
+            <p className="font-serif text-lg sm:text-2xl md:text-3xl italic tracking-wide text-white/95 font-normal">
               In Our Tranquil Nature Inspired Court
             </p>
           </div>
 
-          {/* Caption 1: 01 - BOOK YOUR PRIVATE COURT */}
+          {/* Caption 1: 01 - BOOK YOUR PRIVATE COURT (Left-Aligned) */}
           <div
             ref={(el) => (captionsRef.current[1] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl opacity-0 will-change-transform"
+            className="absolute bottom-20 md:bottom-28 left-6 md:left-12 max-w-xl text-left opacity-0 will-change-transform"
           >
-            <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-[#E8B89A] block mb-2 font-sans">
-              01 — BOOK YOUR
+            <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-white/90 block mb-2 font-sans">
+              01 - BOOK YOUR
             </span>
-            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#F5DEC8] uppercase mb-4">
+            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white uppercase mb-4 drop-shadow-sm">
               PRIVATE COURT
             </h2>
-            <p className="text-sm md:text-base text-[#F5DEC8]/90 leading-relaxed max-w-lg font-sans">
+            <p className="text-sm md:text-base text-white/90 leading-relaxed font-sans max-w-lg">
               Enjoy Time With Your Family In Our Private Court , Filled With Laughter , Friends And Thrill Of Padel !
             </p>
           </div>
 
-          {/* Caption 2: 02 - HOST YOUR PADEL TOURNAMENT */}
+          {/* Caption 2: 02 - HOST YOUR PADEL TOURNAMENT (Left-Aligned) */}
           <div
             ref={(el) => (captionsRef.current[2] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl opacity-0 will-change-transform"
+            className="absolute bottom-20 md:bottom-28 left-6 md:left-12 max-w-xl text-left opacity-0 will-change-transform"
           >
-            <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-[#E8B89A] block mb-2 font-sans">
-              02 — HOST YOUR
+            <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-white/90 block mb-2 font-sans">
+              02 - HOST YOUR
             </span>
-            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#F5DEC8] uppercase mb-4">
+            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white uppercase mb-4 drop-shadow-sm">
               PADEL TOURNAMENT
             </h2>
-            <p className="text-sm md:text-base text-[#F5DEC8]/90 leading-relaxed max-w-lg font-sans">
+            <p className="text-sm md:text-base text-white/90 leading-relaxed font-sans max-w-lg">
               Our Multi Court Indoor / Outddor Facilities Allow You To Host A Grand Tournament For Marketing Branding , Or Corporate Purposes .
             </p>
           </div>
 
-          {/* Caption 3: 03 - SHOOT YOUR MARKETING CAMPAIGN */}
+          {/* Caption 3: 03 - SHOOT YOUR MARKETING CAMPAIGN (Left-Aligned) */}
           <div
             ref={(el) => (captionsRef.current[3] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl opacity-0 will-change-transform"
+            className="absolute bottom-20 md:bottom-28 left-6 md:left-12 max-w-xl text-left opacity-0 will-change-transform"
           >
-            <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-[#E8B89A] block mb-2 font-sans">
-              03 — SHOOT YOUR
+            <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-white/90 block mb-2 font-sans">
+              03 - SHOOT YOUR
             </span>
-            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#F5DEC8] uppercase mb-4">
+            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white uppercase mb-4 drop-shadow-sm">
               MARKETING CAMPAIGN
             </h2>
-            <p className="text-sm md:text-base text-[#F5DEC8]/90 leading-relaxed max-w-lg font-sans">
+            <p className="text-sm md:text-base text-white/90 leading-relaxed font-sans max-w-lg">
               Our Oak Interior Blended With Terracot Court Serves As The Perfect Backdrop That Your Brand Needs .
             </p>
           </div>
 
-          {/* Caption 4: 04 - YOUR COURT IS READY / LET'S PLAY ! */}
+          {/* Caption 4: 04 - YOUR COURT IS READY / LET'S PLAY ! (Right-Aligned) */}
           <div
             ref={(el) => (captionsRef.current[4] = el)}
-            className="absolute bottom-20 md:bottom-24 left-6 md:left-12 max-w-2xl opacity-0 will-change-transform pointer-events-auto"
+            className="absolute bottom-20 md:bottom-28 right-6 md:right-12 max-w-xl text-right flex flex-col items-end opacity-0 will-change-transform pointer-events-auto"
           >
-            <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-[#E8B89A] block mb-2 font-sans">
+            <span className="text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-white/90 block mb-2 font-sans">
               YOUR COURT IS READY
             </span>
-            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#F5DEC8] uppercase mb-6">
+            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white uppercase mb-6 drop-shadow-sm">
               LETS PLAY !
             </h2>
             <button
               onClick={onOpenBooking}
-              className="px-8 py-3.5 bg-[#C4622D] hover:bg-[#a84e20] text-[#F5DEC8] text-xs font-semibold uppercase tracking-[0.18em] rounded-full transition-all duration-300 active:scale-95 border border-[#C4622D] shadow-lg"
+              className="px-7 py-3 bg-[#991B1B] hover:bg-[#b91c1c] text-white text-xs font-semibold uppercase tracking-[0.16em] rounded-md transition-all duration-300 active:scale-95 shadow-md"
             >
-              BOOK A COURT →
+              BOOK A COURT
             </button>
           </div>
         </div>
