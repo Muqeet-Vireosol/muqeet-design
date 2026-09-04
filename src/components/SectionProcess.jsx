@@ -34,8 +34,8 @@ const processSteps = [
 export default function SectionProcess({ onOpenBooking }) {
   const containerRef = useRef(null);
   const stageRef = useRef(null);
-  const rightImagesRef = useRef([]);
-  const rightCaptionsRef = useRef([]);
+  const cardImagesRef = useRef([]);
+  const captionsRef = useRef([]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -43,12 +43,12 @@ export default function SectionProcess({ onOpenBooking }) {
     if (!container || !stage) return;
 
     const ctx = gsap.context(() => {
-      // Set initial states for right column images and captions
-      rightImagesRef.current.forEach((img, i) => {
+      // Set initial states: First card image visible (Start or 1.png), others opacity 0
+      cardImagesRef.current.forEach((img, i) => {
         if (img) gsap.set(img, { opacity: i === 0 ? 1 : 0 });
       });
 
-      rightCaptionsRef.current.forEach((cap, i) => {
+      captionsRef.current.forEach((cap, i) => {
         if (cap) gsap.set(cap, { opacity: i === 0 ? 1 : 0, y: i === 0 ? 0 : 15 });
       });
 
@@ -64,20 +64,20 @@ export default function SectionProcess({ onOpenBooking }) {
         },
       });
 
-      // Step 1 -> Step 2
-      tl.to(rightImagesRef.current[1], { opacity: 1, duration: 0.25 }, 0.2)
-        .to(rightCaptionsRef.current[0], { opacity: 0, y: -15, duration: 0.15 }, 0.18)
-        .to(rightCaptionsRef.current[1], { opacity: 1, y: 0, duration: 0.25 }, 0.22);
+      // Step 1: Start/Card 1 -> Card 2
+      tl.to(cardImagesRef.current[1], { opacity: 1, duration: 0.25 }, 0.22)
+        .to(captionsRef.current[0], { opacity: 0, y: -15, duration: 0.15 }, 0.2)
+        .to(captionsRef.current[1], { opacity: 1, y: 0, duration: 0.25 }, 0.25);
 
-      // Step 2 -> Step 3
-      tl.to(rightImagesRef.current[2], { opacity: 1, duration: 0.25 }, 0.5)
-        .to(rightCaptionsRef.current[1], { opacity: 0, y: -15, duration: 0.15 }, 0.48)
-        .to(rightCaptionsRef.current[2], { opacity: 1, y: 0, duration: 0.25 }, 0.52);
+      // Step 2: Card 2 -> Card 3
+      tl.to(cardImagesRef.current[2], { opacity: 1, duration: 0.25 }, 0.52)
+        .to(captionsRef.current[1], { opacity: 0, y: -15, duration: 0.15 }, 0.5)
+        .to(captionsRef.current[2], { opacity: 1, y: 0, duration: 0.25 }, 0.55);
 
-      // Step 3 -> Step 4
-      tl.to(rightImagesRef.current[3], { opacity: 1, duration: 0.25 }, 0.8)
-        .to(rightCaptionsRef.current[2], { opacity: 0, y: -15, duration: 0.15 }, 0.78)
-        .to(rightCaptionsRef.current[3], { opacity: 1, y: 0, duration: 0.25 }, 0.82);
+      // Step 3: Card 3 -> Card 4
+      tl.to(cardImagesRef.current[3], { opacity: 1, duration: 0.25 }, 0.82)
+        .to(captionsRef.current[2], { opacity: 0, y: -15, duration: 0.15 }, 0.8)
+        .to(captionsRef.current[3], { opacity: 1, y: 0, duration: 0.25 }, 0.85);
     }, container);
 
     return () => ctx.revert();
@@ -94,42 +94,25 @@ export default function SectionProcess({ onOpenBooking }) {
         ref={stageRef}
         className="relative w-full h-screen flex flex-col justify-center py-16 px-6 md:px-12 overflow-hidden"
       >
-        <div className="max-w-7xl w-full mx-auto flex flex-col">
+        <div className="max-w-6xl w-full mx-auto flex flex-col">
           {/* Top Right Label: THE PROCESS */}
-          <div className="w-full flex justify-end mb-4 md:mb-6">
+          <div className="w-full flex justify-end mb-3 md:mb-5">
             <span className="font-serif text-sm md:text-base font-bold uppercase tracking-[0.25em] text-[#E8B89A]">
               THE PROCESS
             </span>
           </div>
 
-          {/* Unified Split Card (Left: OUR PREMIUM COURTS, Right: Scroll Image Swap) */}
-          <div className="relative w-full rounded-[24px] md:rounded-[32px] overflow-hidden border border-[#E8B89A]/30 bg-[#1A1008] grid grid-cols-1 md:grid-cols-2 aspect-[4/3] md:aspect-[16/9] shadow-2xl mb-8">
-            {/* Left Column: Pinned "OUR PREMIUM COURTS" Image */}
-            <div className="relative h-full w-full overflow-hidden border-b md:border-b-0 md:border-r border-[#E8B89A]/20 flex items-center justify-center">
+          {/* Unified Composite Card (Single widescreen 2:1 container) */}
+          <div className="relative w-full rounded-[20px] sm:rounded-[28px] md:rounded-[32px] overflow-hidden border border-[#E8B89A]/30 bg-white aspect-[2/1] shadow-2xl mb-8">
+            {processSteps.map((step, i) => (
               <img
-                src="/assets/section2/Start.png"
-                alt="Our Premium Courts"
-                className="w-full h-full object-cover object-center"
+                key={step.title}
+                ref={(el) => (cardImagesRef.current[i] = el)}
+                src={step.image}
+                alt={step.title}
+                className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
               />
-              <div className="absolute inset-0 bg-[#1A1008]/25 flex items-center justify-center p-6 text-center">
-                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-wider text-[#F5DEC8] drop-shadow-md">
-                  OUR PREMIUM COURTS
-                </h2>
-              </div>
-            </div>
-
-            {/* Right Column: Scroll-Driven Image Swap */}
-            <div className="relative h-full w-full overflow-hidden bg-[#1A1008]">
-              {processSteps.map((step, i) => (
-                <img
-                  key={step.title}
-                  ref={(el) => (rightImagesRef.current[i] = el)}
-                  src={step.image}
-                  alt={step.title}
-                  className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
-                />
-              ))}
-            </div>
+            ))}
           </div>
 
           {/* Bottom Dynamic Captions (Swapping on Scroll) */}
@@ -137,7 +120,7 @@ export default function SectionProcess({ onOpenBooking }) {
             {processSteps.map((step, i) => (
               <div
                 key={step.title}
-                ref={(el) => (rightCaptionsRef.current[i] = el)}
+                ref={(el) => (captionsRef.current[i] = el)}
                 className="absolute inset-0 flex flex-col justify-start pointer-events-none will-change-transform"
               >
                 <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold uppercase text-[#F5DEC8] tracking-wide mb-2">

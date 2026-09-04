@@ -200,15 +200,31 @@ export default function SectionHero({ onOpenBooking }) {
           </span>
         </div>
 
-        {/* Animated "DOWN SCROLL" Vertical Indicator */}
+        {/* Constantly Rotating Circular "SCROLL DOWN" Indicator */}
         <div
           ref={downScrollRef}
-          className="absolute right-6 md:right-12 bottom-12 z-20 flex flex-col items-center gap-3 pointer-events-none transition-opacity"
+          className="absolute right-6 md:right-12 bottom-8 md:bottom-12 z-20 pointer-events-none transition-opacity"
         >
-          <span className="vertical-lr text-[10px] md:text-xs font-semibold uppercase tracking-[0.3em] text-[#E8B89A] animate-down-scroll">
-            DOWN SCROLL
-          </span>
-          <div className="w-[1px] h-10 bg-gradient-to-b from-[#E8B89A] to-transparent animate-down-scroll" />
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center">
+            <svg
+              className="w-full h-full animate-[spin_10s_linear_infinite]"
+              viewBox="0 0 100 100"
+            >
+              <path
+                id="scrollCirclePath"
+                d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"
+                fill="none"
+              />
+              <text className="text-[9.5px] font-sans font-bold tracking-[0.26em] fill-[#F5DEC8] uppercase">
+                <textPath href="#scrollCirclePath" startOffset="0%">
+                  • SCROLL DOWN • SCROLL DOWN
+                </textPath>
+              </text>
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#E8B89A] animate-ping" />
+            </div>
+          </div>
         </div>
 
         {/* Captions Overlay Container */}
