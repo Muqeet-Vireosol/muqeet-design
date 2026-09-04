@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Maximize2, Calendar, Award } from 'lucide-react';
+import { Maximize2 } from 'lucide-react';
 import { siteContent } from '../data/content';
 
-const MAX_TRAIL_ITEMS = 5; // Strict cap of 5 images active as in site1.1
+const MAX_TRAIL_ITEMS = 5;
 
 const TRAIL_IMAGES = [
   '/assets/section3/1.png',
@@ -31,7 +31,7 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
     const trailContainer = trailContainerRef.current;
     if (!stage || !trailContainer) return;
 
-    // Preload trail images
+    // Preload images
     TRAIL_IMAGES.forEach((src) => {
       const im = new Image();
       im.src = src;
@@ -53,36 +53,32 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
       const relX = x - rect.left;
       const relY = y - rect.top;
 
-      // Random slight tilt (-8 to +8 deg) matching site1.1
       const rot = (Math.random() * 16 - 8).toFixed(1);
 
       const item = document.createElement('div');
-      item.className = 'cursor-buffer__trail-item';
+      item.className = 'cursor-trail-item';
       item.style.left = `${relX}px`;
       item.style.top = `${relY}px`;
       item.style.setProperty('--rot', `${rot}deg`);
 
       const img = document.createElement('img');
       img.src = TRAIL_IMAGES[trailIndexRef.current % TRAIL_IMAGES.length];
-      img.alt = 'The Oak Padel House Atmosphere';
+      img.alt = 'The Oak Atmosphere';
       item.appendChild(img);
 
       trailContainer.appendChild(item);
       activeTrailRef.current.push(item);
       trailIndexRef.current++;
 
-      // Trigger active animation on next frame
       requestAnimationFrame(() => {
         item.classList.add('is-active');
       });
 
-      // Strict limit: if more than 5 images are in activeTrail, remove oldest immediately
       while (activeTrailRef.current.length > MAX_TRAIL_ITEMS) {
         const oldest = activeTrailRef.current.shift();
         removeTrailItem(oldest);
       }
 
-      // Automatically fade out after 2.2 seconds
       setTimeout(() => {
         const idx = activeTrailRef.current.indexOf(item);
         if (idx !== -1) {
@@ -130,28 +126,41 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
 
   return (
     <div id="memories" className="w-full">
-      {/* SECTION 3: Style Selector / Picture Buffer (Light Beige Background - EXACT SITE1.1 SPEC) */}
-      <section className="cursor-buffer" id="buffer">
-        <div className="cursor-buffer__stage" id="bufferStage" ref={stageRef}>
-          {/* Dynamic trail container (Strictly max 5 images active) */}
-          <div className="cursor-buffer__trail" id="bufferTrail" ref={trailContainerRef} />
+      {/* SECTION 3 — MEMORIES CTA: Cream Background (#F5DEC8), min padding 96px, thin 1px #E8B89A border */}
+      <section className="relative w-full min-h-[90vh] bg-[#F5DEC8] text-[#1A1008] border-t border-[#E8B89A] py-24 md:py-32 flex items-center justify-center overflow-hidden select-none">
+        <div
+          ref={stageRef}
+          className="cursor-trail-stage w-full flex flex-col items-center justify-center text-center px-6 md:px-12"
+        >
+          {/* Dynamic Cursor Photo Trail */}
+          <div ref={trailContainerRef} className="absolute inset-0 pointer-events-none overflow-hidden z-10" />
 
-          {/* Centered Interactive Content */}
-          <div className="cursor-buffer__content">
-            <span className="cursor-buffer__hint">Move your cursor</span>
-            <h2 className="cursor-buffer__title">
-              LETS CREATE SOME MEMORIES !
+          {/* Centered Content */}
+          <div className="relative z-20 max-w-4xl mx-auto flex flex-col items-center">
+            {/* Sub-label above headline: "Items At The Kitchen Woods" */}
+            <span className="text-xs md:text-sm font-semibold uppercase tracking-[0.32em] text-[#C4622D] block mb-4 font-sans">
+              Items At The Kitchen Woods
+            </span>
+
+            {/* Main headline: "LET'S CREATE SOME MEMORIES!" */}
+            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-[#1A1008] uppercase leading-[1.02] mb-10 max-w-4xl">
+              LET'S CREATE SOME MEMORIES!
             </h2>
-            <div className="cursor-buffer__buttons">
+
+            {/* Two Side-by-Side Buttons: One filled dark, one outline */}
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pointer-events-auto">
+              {/* Button 1: Filled Dark */}
               <button
-                onClick={() => onOpenBooking()}
-                className="cursor-buffer__btn cursor-buffer__btn--primary"
+                onClick={onOpenBooking}
+                className="px-9 py-4 bg-[#1A1008] hover:bg-[#C4622D] text-[#F5DEC8] border border-[#1A1008] hover:border-[#C4622D] text-xs md:text-sm font-semibold uppercase tracking-[0.18em] rounded-full transition-all duration-300 active:scale-95"
               >
                 Book Your Court
               </button>
+
+              {/* Button 2: Outline */}
               <button
                 onClick={onOpenEvent}
-                className="cursor-buffer__btn cursor-buffer__btn--secondary"
+                className="px-9 py-4 bg-transparent hover:bg-[#1A1008] text-[#1A1008] hover:text-[#F5DEC8] border border-[#1A1008] text-xs md:text-sm font-semibold uppercase tracking-[0.18em] rounded-full transition-all duration-300 active:scale-95"
               >
                 Host Event
               </button>
@@ -160,18 +169,20 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
         </div>
       </section>
 
-      {/* Atmospheric Gallery Grid (9 Photos) */}
-      <section className="block py-20 bg-[#14080A]">
-        <div className="wrap">
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+      {/* Atmospheric Gallery Grid (9 Images) */}
+      <section className="relative w-full py-24 bg-[#1A1008] text-[#F5DEC8] border-t border-[#E8B89A]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="flex items-center justify-between mb-10 pb-4 border-b border-[#E8B89A]/20">
             <div>
-              <div className="eyebrow">Curated Moments</div>
-              <h3 className="font-serif text-3xl font-bold text-white uppercase mt-1">
-                The Oak Atmosphere
+              <span className="text-[11px] uppercase tracking-[0.28em] font-semibold text-[#E8B89A] block mb-1 font-sans">
+                THE ARCHIVE
+              </span>
+              <h3 className="font-serif text-3xl md:text-4xl font-bold uppercase text-[#F5DEC8]">
+                Court &amp; Lounge Atmosphere
               </h3>
             </div>
-            <span className="text-xs text-stone-400 font-sans hidden sm:block">
-              Click any photograph to expand in high resolution
+            <span className="text-xs text-[#E8B89A]/80 font-sans hidden sm:block">
+              Click photograph to expand
             </span>
           </div>
 
@@ -180,31 +191,31 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
               <div
                 key={img.id}
                 onClick={() => onSelectImage(img)}
-                className="group relative rounded-2xl overflow-hidden bg-black/40 border border-white/15 shadow-xl cursor-pointer aspect-[4/3] transform transition-all duration-500 hover:-translate-y-1.5 hover:border-white/40"
+                className="group relative rounded-2xl overflow-hidden bg-[#1A1008] border border-[#E8B89A]/30 cursor-pointer aspect-[4/3] transition-all duration-500 hover:border-[#E8B89A]"
               >
                 <img
                   src={img.src}
                   alt={img.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/85 via-transparent to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
 
                 <div className="absolute top-4 right-4 z-10">
-                  <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] uppercase font-mono tracking-wider">
+                  <span className="px-3 py-1 rounded-full border border-[#E8B89A]/40 bg-[#1A1008]/70 text-[#F5DEC8] text-[10px] uppercase font-sans font-medium tracking-wider">
                     {img.tag}
                   </span>
                 </div>
 
                 <div className="absolute bottom-4 left-4 right-4 z-10 flex items-end justify-between">
                   <div>
-                    <span className="text-[10px] font-mono text-amber-200 uppercase tracking-widest block mb-0.5">
+                    <span className="text-[10px] uppercase tracking-widest text-[#E8B89A] block mb-0.5 font-sans font-medium">
                       Moment 0{img.id}
                     </span>
-                    <h4 className="font-serif text-lg font-bold text-white tracking-wide">
+                    <h4 className="font-serif text-lg font-bold text-[#F5DEC8] tracking-wide">
                       {img.title}
                     </h4>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-[#9E1B1B] transition-colors">
+                  <div className="w-8 h-8 rounded-full border border-[#E8B89A]/50 bg-[#1A1008]/70 flex items-center justify-center text-[#F5DEC8] group-hover:bg-[#C4622D] group-hover:border-[#C4622D] transition-colors">
                     <Maximize2 className="w-3.5 h-3.5" />
                   </div>
                 </div>

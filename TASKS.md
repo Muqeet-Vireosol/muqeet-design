@@ -1,37 +1,9 @@
-# Build Checklist & Progress Tracking (TASKS.md)
+# Build Checklist & Progress (TASKS.md)
 
-Tracking the implementation milestones for The Oak Padel House (Sections 1–3).
-
----
-
-## 📋 Task Checklist
-
-- [x] **Phase 1: Project Setup & Specification Documentation**
-  - [x] Create `README.md`
-  - [x] Create `SPEC.md`
-  - [x] Create `DESIGN.md`
-  - [x] Create `CONTENT.md`
-  - [x] Create `COMPONENTS.md`
-  - [x] Create `TASKS.md`
-
-- [x] **Phase 2: App Infrastructure & Asset Organization**
-  - [x] Initialize Vite + React project configuration
-  - [x] Install Tailwind CSS, Framer Motion, Lucide React, Canvas Confetti
-  - [x] Configure `tailwind.config.js` with neo-classical color tokens and font families
-  - [x] Configure `index.html` with Google Fonts (`Cormorant Garamond`, `Cinzel`, `Playfair Display`, `Plus Jakarta Sans`)
-  - [x] Copy and organize assets from `Section 1/`, `Section 2/`, and `Section 3/` into `public/assets/`
-
-- [x] **Phase 3: Component Implementation**
-  - [x] `src/data/content.js`: Decoupled content structure
-  - [x] `src/components/Navbar.jsx`: Sticky neo-classical navbar with glassmorphism on scroll
-  - [x] `src/components/SectionHero.jsx`: Section 1 hero + 4-slide scroll story + rotating badge
-  - [x] `src/components/SectionProcess.jsx`: Section 2 split-screen 4-step interactive booking flow
-  - [x] `src/components/SectionMemories.jsx`: Section 3 cursor-following image reveal trail + gallery
-  - [x] `src/components/BookingModal.jsx`: Interactive court booking modal with confetti
-  - [x] `src/components/EventModal.jsx`: Host event inquiry modal
-  - [x] `src/components/LightboxModal.jsx`: Atmosphere gallery photo lightbox with arrow navigation
-
-- [x] **Phase 4: Polish, Verification & Walkthrough**
-  - [x] Smooth scrolling and responsive adjustments across mobile, tablet, and desktop
-  - [x] Run `npm run build` to verify zero production errors (completed in 3.26s)
-  - [x] Create walkthrough artifact with visual documentation and verification results
+- [x] Refactor Section 1 with GSAP ScrollTrigger scrub: 1.5, pinning 5 images with fading "LET'S PLAY" overlay and animated vertical "DOWN SCROLL".
+- [x] Configure Navbar with exact links (`Lazy Padel | Events | Go Kart | BOOK YOUR COURT`), red pill CTA, and 80px scroll transition.
+- [x] Refactor Section 2 with pinned left column ("OUR PREMIUM COURTS") and right column 4-image swap scrub with captions: 1. BOOK YOUR COURT, 2. MEET YOUR PRO, 3. LET'S STAY A WHILE, 4. AND LET'S PLAY, plus right-aligned "THE PROCESS".
+- [x] Refactor Section 3 with Cream background (`#F5DEC8`), sub-label "Items At The Kitchen Woods", main headline "LET'S CREATE SOME MEMORIES!", and dual buttons (filled dark + outline).
+- [x] Apply strict color palette (`#C4622D #D4845A #E8B89A #F5DEC8 #1A1008`), typography (`Cormorant Garamond` & `Inter`), remove all drop shadows, add 1px `#E8B89A` horizontal rules, and ensure minimum 96px padding.
+- [x] Verify production build (`npm run build` completed with 0 errors).
+- [x] Push all changes to GitHub `Muqeet-Vireosol/muqeet-design`.
