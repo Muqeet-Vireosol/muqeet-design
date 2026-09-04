@@ -5,56 +5,60 @@ This document details all interactive UI components, their expected state manage
 ---
 
 ## 1. `Navbar`
-- **Location**: Top of viewport (fixed / sticky).
+- **Location**: Fixed at top of viewport.
 - **Behaviors**:
-  - Transparent overlay on initial hero state.
-  - Transitions to glassmorphic frosted background (`backdrop-blur-md bg-stone-900/60` or `bg-amber-950/70`) upon scrolling > 50px.
-  - Smooth anchor scrolling to `#hero-story`, `#process`, `#memories`.
-  - Primary button "BOOK YOUR COURT" opens the global `BookingModal`.
-  - Mobile hamburger toggle for screen widths < 768px.
+  - Full-width transparent background (`bg-transparent`).
+  - Brand: Left-aligned crimson red `"The Oak"` with `"PADEL HOUSE"` sub-label.
+  - Centered navigation links (`LETS PADEL`, `EVENTS`, `CONTACT`) with light grey default state (`#B0B0B0`) and smooth hover transition to pure white (`#FFFFFF`) via `transition: all 0.25s ease-in-out`.
+  - Active section highlight tracked dynamically via scroll position.
+  - Primary button `"BOOK YOUR COURT"` (crimson red `#991B1B`) opens global `BookingModal`.
+  - Mobile slide-out drawer for screens < 768px.
 
 ---
 
-## 2. `SectionHeroStory` (Section 1)
+## 2. `SectionHero` (Section 1)
 - **Location**: Section 1
 - **Interactive Elements**:
-  - **Rotating SVG Badge**: "SCROLL DOWN • SCROLL DOWN •" with continuous CSS spin animation.
-  - **Scroll Story Slides**:
-    - 4 distinct slides with high-resolution imagery transitions (`1.png` -> `5.png`).
-    - Pagination indicators (dots and numbered markers `01`, `02`, `03`, `04`).
-    - Clickable Next / Previous slide controls.
-    - Keyboard arrow keys navigation (Left/Right arrow).
-    - Auto-pause when user is hovering.
-  - **Slide 04 CTA**: "BOOK A COURT" button triggers court selection in Section 2 or opens `BookingModal`.
+  - **181-Frame Canvas Scrub**: Preloaded WebP frame sequence rendered to `<canvas>` with device pixel ratio scaling and `0.14` LERP smoothing driven by GSAP ScrollTrigger.
+  - **Centered Intro Title**: Screen 1 displays centered `EXPERIENCE A REFRESHING`, `GAME OF PADEL`, and italic subtitle.
+  - **Rotating Circular Badge**: Constantly rotating circular SVG `• SCROLL DOWN • SCROLL DOWN` badge centered at the bottom of the screen.
+  - **Sequential Left-Aligned Captions**:
+    - `01 - BOOK YOUR PRIVATE COURT`
+    - `02 - HOST YOUR PADEL TOURNAMENT`
+    - `03 - SHOOT YOUR MARKETING CAMPAIGN`
+  - **Right-Aligned CTA (Screen 5)**: `YOUR COURT IS READY / LETS PLAY !` with a solid red `"BOOK A COURT"` button that triggers `onOpenBooking`.
 
 ---
 
 ## 3. `SectionProcess` (Section 2)
 - **Location**: Section 2
 - **Interactive Elements**:
-  - **Sticky Architectural Showcase (Left Pane)**:
-    - Fixed presentation image of "OUR PREMIUM COURTS" with architectural details and subtle zoom hover effect.
-  - **Interactive 4-Step Booking Wizard (Right Pane)**:
-    - **Step Tracker**: Clickable stepper `01 Court` -> `02 Day` -> `03 Slot` -> `04 Play` with progress line.
-    - **Step 1 - Select Court**: Interactive court cards with live active state, court badges, and image previews.
-    - **Step 2 - Select Day**: Interactive mini calendar where users can click dates (Today, Tomorrow, or pick from next 14 days).
-    - **Step 3 - Select Slot**: Time chip selector highlighting morning, afternoon, and golden hour slots with availability indicators.
-    - **Step 4 - And Lets Play**: Interactive summary card displaying selected court, date, and slot with a prominent "Confirm & Book Court" button.
+  - **Section-Filling Widescreen Card**: Widescreen `2:1` container (`max-w-[94vw]`, `flex-1`, `max-h-[72vh]`) filling the pinned section stage.
+  - **Scroll-Driven Image Swapping**: Smoothly transitions through the 4 stage composite images (`1.png` -> `4.png`).
+  - **Top-Right Header**: `THE PROCESS` label in uppercase tracked serif.
+  - **Dynamic Bottom Captions**: Automatically updates with scroll progress:
+    1. `1. BOOK YOUR COURT`
+    2. `2. MEET YOUR PRO`
+    3. `3. LET'S STAY A WHILE`
+    4. `4. AND LET'S PLAY`
 
 ---
 
 ## 4. `SectionMemories` (Section 3)
 - **Location**: Section 3
 - **Interactive Elements**:
-  - **Cursor Follower & Image Reveal Trail**:
-    - Tracks mouse coordinates (`clientX`, `clientY`) within the canvas.
-    - Spawns floating thumbnail previews of the 9 high-res atmosphere images along the cursor path with subtle rotation and smooth fade-out.
-  - **Dual CTAs**:
-    - "Book Your Court": Opens `BookingModal`.
-    - "Host Event": Opens `EventModal`.
-  - **Interactive Atmosphere Gallery Grid**:
-    - 9 architectural cards arranged in a refined responsive masonry/grid.
-    - Hover zoom and caption reveal.
+  - **Warm Cream Canvas**: `#F5ECD7` background with `MOVE YOUR CURSOR` sub-label.
+  - **Trobosh Display Title**: `LETS CREATE SOME MEMORIES !` with handcrafted typography (+40% enlarged size).
+  - **Interactive Cursor Buffer**:
+    - Spawns floating photo cards (9 atmosphere images) at cursor / touch coordinates.
+    - Random $-8^\circ$ to $+8^\circ$ rotation with pop-in scale animation.
+    - Strict maximum limit of 5 active items concurrently on screen.
+    - Automatic fade-out after 2.2 seconds.
+  - **Enlarged Dual Action Pill Buttons**:
+    - `"Book Your Court"`: Terracotta filled pill (`#A84A25`).
+    - `"Host Event"`: Crisp white elevated pill button with subtle shadow.
+  - **Atmosphere Gallery Grid**:
+    - 9 architectural court and lounge moment cards.
     - Click on any image opens the `LightboxModal`.
 
 ---
@@ -62,15 +66,15 @@ This document details all interactive UI components, their expected state manage
 ## 5. `BookingModal` & `EventModal`
 - **Location**: Global Overlay Dialogs
 - **Behaviors**:
-  - Accessible via ESC key or clicking outside backdrop.
-  - Smooth scale-in / fade-in animation.
-  - Controlled form inputs with validation and instant booking confirmation state.
-  - Confetti burst / success toast on booking submission.
+  - Accessible via ESC key or backdrop click.
+  - Controlled inputs for court selection, date/time, guests, and contact details.
+  - Confetti burst on successful booking confirmation.
 
 ---
 
 ## 6. `LightboxModal`
-- **Location**: Global Image Preview
+- **Location**: Global Image Preview Dialog
 - **Behaviors**:
   - Full-screen high-res preview of selected gallery photo.
-  - Keyboard navigation (ESC to close, Left/Right arrow for previous/next image).
+  - Keyboard navigation (ESC to close, Left/Right arrow keys for navigation).
+

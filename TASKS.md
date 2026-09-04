@@ -1,9 +1,8 @@
 # Build Checklist & Progress (TASKS.md)
 
-- [x] Refactor Section 1 with GSAP ScrollTrigger scrub: 1.5, pinning 5 images with fading "LET'S PLAY" overlay and animated vertical "DOWN SCROLL".
-- [x] Configure Navbar with exact links (`Lazy Padel | Events | Go Kart | BOOK YOUR COURT`), red pill CTA, and 80px scroll transition.
-- [x] Refactor Section 2 with pinned left column ("OUR PREMIUM COURTS") and right column 4-image swap scrub with captions: 1. BOOK YOUR COURT, 2. MEET YOUR PRO, 3. LET'S STAY A WHILE, 4. AND LET'S PLAY, plus right-aligned "THE PROCESS".
-- [x] Refactor Section 3 with Cream background (`#F5DEC8`), sub-label "Items At The Kitchen Woods", main headline "LET'S CREATE SOME MEMORIES!", and dual buttons (filled dark + outline).
-- [x] Apply strict color palette (`#C4622D #D4845A #E8B89A #F5DEC8 #1A1008`), typography (`Cormorant Garamond` & `Inter`), remove all drop shadows, add 1px `#E8B89A` horizontal rules, and ensure minimum 96px padding.
-- [x] Verify production build (`npm run build` completed with 0 errors).
-- [x] Push all changes to GitHub `Muqeet-Vireosol/muqeet-design`.
+- [x] **Section 1 (Hero Scroll Sequence)**: 181-frame canvas scroll scrub with LERP smoothing (`0.14`), centered intro typography, bottom-centered constantly rotating circular "• SCROLL DOWN • SCROLL DOWN" SVG indicator, left-aligned captions for steps 01-03, and right-aligned "YOUR COURT IS READY / LETS PLAY !" with red "BOOK A COURT" CTA button.
+- [x] **Navigation Header (Navbar)**: Transparent full-width header, crimson red "The Oak" logo, horizontally centered uppercase links (`LETS PADEL` | `EVENTS` | `CONTACT`) with 0.25s hover transitions, and solid red "BOOK YOUR COURT" CTA button.
+- [x] **Section 2 (The Process)**: Widescreen composite image card filling the section stage (`max-w-[94vw]`, `max-h-[72vh]`), top-right `THE PROCESS` header, and dynamic bottom captions swapping seamlessly across the 4 stages.
+- [x] **Section 3 (Memories CTA & Atmosphere Archive)**: Warm cream background (`#F5ECD7`), `MOVE YOUR CURSOR` label, `LETS CREATE SOME MEMORIES !` in Trobosh artistic display typography (enlarged by +40%), enlarged dual action pill buttons (`Book Your Court` and `Host Event`), strict max 5-item interactive cursor trail, and 9-photo atmospheric archive with lightbox.
+- [x] **Color Palette & Typography**: Strict luxury neo-classical palette (`#C4622D`, `#D4845A`, `#E8B89A`, `#F5DEC8`, `#1A1008`, `#3F3D3A`, `#991B1B`), `Cormorant Garamond`, `Inter`, and `Playfair Display`.
+- [x] **Build & Deployment**: Verified production build with 0 errors (`npm run build`) and continuously synced to GitHub `Muqeet-Vireosol/muqeet-design` on `main`.
