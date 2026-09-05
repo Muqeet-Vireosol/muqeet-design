@@ -9,7 +9,13 @@ The application delivers a luxury neo-classical architectural web experience for
    - Screen 5 (04 Your Court is Ready / LETS PLAY !): Right-aligned headline with crimson red `BOOK A COURT` button.
 
 2. **Section 2: The Process (Interactive Booking Experience)**:
-   - Full section stage filled with a single widescreen composite card (`max-w-[94vw]`, `flex-1`), top-right `THE PROCESS` label, and dynamic bottom captions swapping across 4 stages: `1. BOOK YOUR COURT`, `2. MEET YOUR PRO`, `3. LET'S STAY A WHILE`, `4. AND LET'S PLAY`.
+   - Split 2-column pinned stage:
+     - Left column: Smoothly looping high-definition ambiance video (`ANIMATION.mp4` / `animation_opt.mp4`) displaying "OUR PREMIUM COURTS".
+     - Right column: Interactive UI/UX scrolling experience transitioning from intro state (`THE PROCESS`, vertical line, `SCROLL`) through 4 step cards with high-resolution photography and bold serif typography overlays:
+       - `01 -` + `Select Your Court.jpeg` (`SELECT YOUR COURT`)
+       - `02 -` + `Select Your Day.jpeg` (`SELECT YOUR DAY`)
+       - `03 -` + `Select Your Slot.PNG` (`SELECT YOUR SLOT`)
+       - `04 -` + `And Lets Play.jpeg` (`AND LETS PLAY !`)
 
 3. **Section 3: Memories CTA & Atmosphere Archive**:
    - Warm cream `#F5ECD7` background with `MOVE YOUR CURSOR` sub-label.

@@ -33,14 +33,15 @@ This document details all interactive UI components, their expected state manage
 ## 3. `SectionProcess` (Section 2)
 - **Location**: Section 2
 - **Interactive Elements**:
-  - **Section-Filling Widescreen Card**: Widescreen `2:1` container (`max-w-[94vw]`, `flex-1`, `max-h-[72vh]`) filling the pinned section stage.
-  - **Scroll-Driven Image Swapping**: Smoothly transitions through the 4 stage composite images (`1.png` -> `4.png`).
-  - **Top-Right Header**: `THE PROCESS` label in uppercase tracked serif.
-  - **Dynamic Bottom Captions**: Automatically updates with scroll progress:
-    1. `1. BOOK YOUR COURT`
-    2. `2. MEET YOUR PRO`
-    3. `3. LET'S STAY A WHILE`
-    4. `4. AND LET'S PLAY`
+  - **Split-Screen Layout**: 2-column grid (`1440px` max-width) against clean white canvas.
+  - **Left Side Ambiance Video**: Pinned high-resolution video player looping `ANIMATION.mp4` / `animation_opt.mp4` showcasing the luxury court and lounge with "OUR PREMIUM COURTS".
+  - **Right Side Scroll-Scrubbed UI/UX Cards**:
+    - Initial state: Centered `THE PROCESS`, vertical divider line, and `SCROLL` indicator.
+    - Scroll progress transitions sequentially through the 4 steps with high-resolution photography and bold serif typography overlays:
+      1. `01 -` + `SELECT YOUR COURT`
+      2. `02 -` + `SELECT YOUR DAY`
+      3. `03 -` + `SELECT YOUR SLOT`
+      4. `04 -` + `AND LETS PLAY !`
 
 ---
 
