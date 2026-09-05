@@ -99,8 +99,23 @@ export default function SectionProcess({ onOpenBooking }) {
       >
         <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch">
           
-          {/* LEFT SIDE: Interactive Scrolling UI/UX Cards (+20% larger image card) */}
-          <div className="relative w-full h-[45vh] lg:h-full flex items-center justify-center p-4 sm:p-8 md:p-12 lg:p-14 xl:p-16 overflow-hidden">
+          {/* LEFT SIDE: Animation Video ("OUR PREMIUM COURTS") — Completely flush to left edge, 0 padding/space */}
+          <div className="relative w-full h-[50vh] lg:h-full overflow-hidden bg-[#1A1008] shadow-2xl">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="w-full h-full object-cover object-center"
+            >
+              <source src="/assets/section2/animation_opt.mp4" type="video/mp4" />
+              <source src="/assets/section2/ANIMATION.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          {/* RIGHT SIDE: Interactive Scrolling UI/UX Cards (+20% larger image card) */}
+          <div className="relative w-full h-[50vh] lg:h-full flex items-center justify-center p-4 sm:p-8 md:p-12 lg:p-14 xl:p-16 overflow-hidden">
             
             {/* 0. START INTRO: "THE PROCESS" */}
             <div
@@ -149,21 +164,6 @@ export default function SectionProcess({ onOpenBooking }) {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* RIGHT SIDE: Animation Video ("OUR PREMIUM COURTS") — Completely flush to right edge, 0 padding/space */}
-          <div className="relative w-full h-[55vh] lg:h-full overflow-hidden bg-[#1A1008] shadow-2xl">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              className="w-full h-full object-cover object-center"
-            >
-              <source src="/assets/section2/animation_opt.mp4" type="video/mp4" />
-              <source src="/assets/section2/ANIMATION.mp4" type="video/mp4" />
-            </video>
           </div>
 
         </div>
