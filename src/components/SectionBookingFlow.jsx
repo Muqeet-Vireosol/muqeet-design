@@ -209,8 +209,8 @@ export default function SectionBookingFlow({ onOpenCheckout }) {
                   </span>
                 </div>
 
-                {/* Court Cards List */}
-                <div className="space-y-5 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                {/* Court Cards List (Scrollbar Hidden) */}
+                <div className="space-y-5 max-h-[60vh] overflow-y-auto no-scrollbar hide-scrollbar">
                   {courtsData.map((court) => {
                     const isSelected = selectedCourt?.id === court.id;
                     return (
