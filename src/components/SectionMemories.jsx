@@ -174,62 +174,6 @@ export default function SectionMemories({ onOpenBooking, onOpenEvent, onSelectIm
           </div>
         </div>
       </section>
-
-      {/* Atmospheric Gallery Grid (9 Images) */}
-      <section className="relative w-full py-24 bg-[#1A1008] text-[#F5DEC8] border-t border-[#E8B89A]">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="flex items-center justify-between mb-10 pb-4 border-b border-[#E8B89A]/20">
-            <div>
-              <span className="text-[11px] uppercase tracking-[0.28em] font-semibold text-[#E8B89A] block mb-1 font-sans">
-                THE ARCHIVE
-              </span>
-              <h3 className="font-serif text-3xl md:text-4xl font-bold uppercase text-[#F5DEC8]">
-                Court &amp; Lounge Atmosphere
-              </h3>
-            </div>
-            <span className="text-xs text-[#E8B89A]/80 font-sans hidden sm:block">
-              Click photograph to expand
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {images.map((img) => (
-              <div
-                key={img.id}
-                onClick={() => onSelectImage(img)}
-                className="group relative rounded-2xl overflow-hidden bg-[#1A1008] border border-[#E8B89A]/30 cursor-pointer aspect-[4/3] transition-all duration-500 hover:border-[#E8B89A]"
-              >
-                <img
-                  src={img.src}
-                  alt={img.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/85 via-transparent to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
-
-                <div className="absolute top-4 right-4 z-10">
-                  <span className="px-3 py-1 rounded-full border border-[#E8B89A]/40 bg-[#1A1008]/70 text-[#F5DEC8] text-[10px] uppercase font-sans font-medium tracking-wider">
-                    {img.tag}
-                  </span>
-                </div>
-
-                <div className="absolute bottom-4 left-4 right-4 z-10 flex items-end justify-between">
-                  <div>
-                    <span className="text-[10px] uppercase tracking-widest text-[#E8B89A] block mb-0.5 font-sans font-medium">
-                      Moment 0{img.id}
-                    </span>
-                    <h4 className="font-serif text-lg font-bold text-[#F5DEC8] tracking-wide">
-                      {img.title}
-                    </h4>
-                  </div>
-                  <div className="w-8 h-8 rounded-full border border-[#E8B89A]/50 bg-[#1A1008]/70 flex items-center justify-center text-[#F5DEC8] group-hover:bg-[#C4622D] group-hover:border-[#C4622D] transition-colors">
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
