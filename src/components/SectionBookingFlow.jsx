@@ -399,12 +399,12 @@ export default function SectionBookingFlow({ onOpenCheckout }) {
                 </div>
 
                 {/* Time Slots Grid with Maroon Dashed Border matching mockup */}
-                <div className="border-2 border-dashed border-[#6B1F22]/50 rounded-[24px] p-6 sm:p-10 bg-[#F7F1E7]/80 shadow-md">
+                <div className="border-2 border-dashed border-[#6B1F22]/50 rounded-[24px] p-6 sm:p-10 bg-[#F7F1E7]/80 shadow-md overflow-hidden">
                   <p className="font-serif text-xs sm:text-sm text-[#2B1810]/75 uppercase tracking-widest mb-6">
                     AVAILABLE 60-MINUTE SLOTS FOR {selectedMonth} {selectedDate}, {selectedYear}
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[44vh] overflow-y-auto pr-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[46vh] overflow-y-auto overflow-x-hidden no-scrollbar hide-scrollbar">
                     {timeSlots.map((slot) => {
                       const isSelected = selectedTimeSlot === slot;
                       return (
