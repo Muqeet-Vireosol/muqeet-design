@@ -10,8 +10,14 @@ export default function Navbar({ onOpenBooking, onOpenEvents }) {
       const heroEl = document.getElementById('hero');
       const processEl = document.getElementById('process');
       const memoriesEl = document.getElementById('memories');
+      const bookingEl = document.getElementById('booking-flow');
+      const contactEl = document.getElementById('contact-us');
 
-      if (memoriesEl && scrollPos >= memoriesEl.offsetTop) {
+      if (contactEl && scrollPos >= contactEl.offsetTop) {
+        setActiveTab('contact');
+      } else if (bookingEl && scrollPos >= bookingEl.offsetTop) {
+        setActiveTab('booking');
+      } else if (memoriesEl && scrollPos >= memoriesEl.offsetTop) {
         setActiveTab('memories');
       } else if (processEl && scrollPos >= processEl.offsetTop) {
         setActiveTab('process');
@@ -63,7 +69,7 @@ export default function Navbar({ onOpenBooking, onOpenEvents }) {
             EVENTS
           </button>
           <a
-            href="#memories"
+            href="#contact-us"
             onClick={() => setActiveTab('contact')}
             className={`text-xs uppercase tracking-[0.18em] font-normal font-sans transition-all duration-250 ease-in-out ${
               activeTab === 'contact'
@@ -125,7 +131,7 @@ export default function Navbar({ onOpenBooking, onOpenEvents }) {
             EVENTS
           </button>
           <a
-            href="#memories"
+            href="#contact-us"
             onClick={() => {
               setMobileOpen(false);
               setActiveTab('contact');

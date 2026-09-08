@@ -3,6 +3,9 @@ import Navbar from './components/Navbar';
 import SectionHero from './components/SectionHero';
 import SectionProcess from './components/SectionProcess';
 import SectionMemories from './components/SectionMemories';
+import SectionBookingFlow from './components/SectionBookingFlow';
+import SectionDualCTA from './components/SectionDualCTA';
+import SectionContact from './components/SectionContact';
 import BookingModal from './components/BookingModal';
 import EventModal from './components/EventModal';
 import LightboxModal from './components/LightboxModal';
@@ -12,6 +15,7 @@ export default function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isEventOpen, setIsEventOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
+  const [selectedInquiryService, setSelectedInquiryService] = useState('General Inquiry');
 
   const images = siteContent.section3.images;
 
@@ -54,6 +58,21 @@ export default function App() {
           onOpenBooking={() => setIsBookingOpen(true)}
           onOpenEvent={() => setIsEventOpen(true)}
           onSelectImage={(img) => setLightboxImage(img)}
+        />
+
+        {/* SECTION 4: Interactive 3-Step Booking Flow Widget */}
+        <SectionBookingFlow
+          onOpenCheckout={(details) => setIsBookingOpen(true)}
+        />
+
+        {/* SECTION 5: Dual CTA Banner (Tournament & Shoot) */}
+        <SectionDualCTA
+          onSelectService={(service) => setSelectedInquiryService(service)}
+        />
+
+        {/* SECTION 6: Contact Us Form (#contact-us) */}
+        <SectionContact
+          selectedInquiry={selectedInquiryService}
         />
       </main>
 

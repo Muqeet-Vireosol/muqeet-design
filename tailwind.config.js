@@ -13,6 +13,13 @@ export default {
           sand: '#E8B89A',       /* Sand / Thin Border */
           cream: '#F5DEC8',      /* Light Cream Section */
           dark: '#1A1008',       /* Deep Rich Brown Dark */
+          darkBrown: '#2B1810',
+          terracottaAccent: '#A64A2E',
+          rustOrange: '#C97A3D',
+          maroon: '#6B1F22',
+          creamBg: '#EFE6D8',
+          creamLight: '#F7F1E7',
+          black: '#1A1210',
         },
       },
       fontFamily: {
